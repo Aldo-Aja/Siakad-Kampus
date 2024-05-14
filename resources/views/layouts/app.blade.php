@@ -30,7 +30,7 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-                    {{ Auth::user()->name }}
+                    {{ Auth::user() ? Auth::user()->name : 'Guest' }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0px;">
                     <a href="{{ route('admin.profile.show') }}" class="dropdown-item">
@@ -59,7 +59,7 @@
             <img src="{{ asset('images/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                  class="brand-image img-circle elevation-3"
                  style="opacity: .8">
-            <span class="brand-text font-weight-light">AdminLTE 3</span>
+            <span class="brand-text font-weight-light">{{ Auth::user()->name }}</span>
         </a>
 
         @include('layouts.navigation')
@@ -84,7 +84,7 @@
         </div>
         @endif
         @if(session()->has('message'))
-            <div class="content-header mb-0 pb-0">
+            <div the="content-header mb-0 pb-0">
                 <div class="container-fluid">
                     <div class="mb-0 alert alert-{{ session()->get('alert-type') }} alert-dismissible fade show" role="alert">
                         <strong>{{ session()->get('message') }}</strong>
@@ -116,7 +116,7 @@
             Anything you want
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2023-2024 <a href="https://github.com/Aldo-Aja">Aldo Aja</a>.</strong> All rights reserved.
     </footer>
 </div>
 <!-- ./wrapper -->

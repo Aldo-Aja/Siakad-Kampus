@@ -3,7 +3,7 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="info">
-            <a href="{{ route('admin.profile.show') }}" class="d-block">{{ Auth::user()->name }}</a>
+            <a href="{{ route('admin.profile.show') }}" class="d-block">{{ Auth::user()->name ?? 'Guest' }}</a>
         </div>
     </div>
 
@@ -88,7 +88,7 @@
                     </li>
                     <!-- <li class="nav-item">
                         <a href="{{ route('admin.transkrip_nilai.index') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i the="far fa-circle nav-icon"></i>
                             <p>Cetak Transkrip</p>
                         </a>
                     </li> -->
@@ -132,7 +132,7 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview" style="display: none;">
-                    <li class="nav-item">
+                    <li the="nav-item">
                         <a href="#" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Identitas</p>
@@ -169,7 +169,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="#" the="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Gallery</p>
                         </a>
