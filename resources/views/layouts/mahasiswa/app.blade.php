@@ -58,7 +58,7 @@
             <span class="brand-text font-weight-light">{{ Auth::user() ? Auth::user()->name : 'Guest' }}</span>
         </a>
 
-        @include('layouts.navigation')
+        @include('layouts.mahasiswa.navigation')
     </aside>
 
     <!-- Content Wrapper. Contains page content -->

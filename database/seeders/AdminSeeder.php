@@ -19,5 +19,11 @@ class AdminSeeder extends Seeder
             'password' => bcrypt('123'),
             'is_admin' => 1,
         ]);
+        User::create([
+            'name' => 'mahasiswa',
+            'email' => 'mahasiswa@mahasiswa.com',
+            'password' => bcrypt('123'),
+            'user_type' => 'mahasiswa',
+        ]);
     }
 }

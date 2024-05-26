@@ -1,18 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\JurusanController;
-use App\Http\Controllers\Admin\ProgramStudyController;
-use App\Http\Controllers\Admin\MataKuliahController;
-use App\Http\Controllers\Admin\MahasiswaController;
-use App\Http\Controllers\Admin\TahunAkademikController;
-use App\Http\Controllers\Admin\KrsController;
-use App\Http\Controllers\Admin\KhsController;
-use App\Http\Controllers\Admin\InputNilaiController;
-use App\Http\Controllers\Admin\TranskripNilaiController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,49 +14,50 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-});
+Auth::routes();
 
-Route::group(['middleware' => ['auth', 'is_admin'], 'prefix' => 'admin', 'as' => 'admin.'], function() {
-    // Jurusan CRUD
-    Route::resource('jurusan', JurusanController::class)->except('show');
-    Route::resource('program_study', ProgramStudyController::class)->except('show');
-    Route::resource('mata_kuliah', MataKuliahController::class)->except('show');
-    Route::resource('mahasiswa', MahasiswaController::class);
-    Route::resource('tahun_akademik', TahunAkademikController::class);
-    
-    // KRS
-    Route::get('krs/create/{nim}/{tahun_akademik}', [KrsController::class, 'create'])->name('krs.create');
-    Route::get('krs', [KrsController::class, 'index'])->name('krs.index');
-    Route::post('krs', [KrsController::class, 'find'])->name('krs.find');
-    Route::post('krs/store', [KrsController::class, 'store'])->name('krs.store');
-    Route::get('krs/{krs:id}/edit', [KrsController::class, 'edit'])->name('krs.edit');
-    Route::put('krs/{krs:id}', [KrsController::class, 'update'])->name('krs.update');
-    Route::delete('krs/{krs:id}', [KrsController::class, 'destroy'])->name('krs.destroy');
-    
-    // KHS
-    Route::get('khs', [KhsController::class, 'index'])->name('khs.index');
-    Route::post('khs', [KhsController::class, 'find'])->name('khs.find');
-    
-    // Input Nilai
-    Route::get('input_nilai', [InputNilaiController::class, 'index'])->name('input_nilai.index');
-    Route::post('input_nilai', [InputNilaiController::class, 'all'])->name('input_nilai.all');
-    Route::post('input_nilai/store', [InputNilaiController::class, 'store'])->name('input_nilai.store');
-    
-    // Transkrip Nilai
-    Route::get('transkrip_nilai', [TranskripNilaiController::class, 'index'])->name("transkrip_nilai.index");
-    Route::post('transkrip_nilai', [TranskripNilaiController::class, 'find'])->name("transkrip_nilai.find");
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
+Route::group(['middleware' => ['auth','is_admin'],'prefix' => 'admin', 'as' => 'admin.'], function() {
+    // jurusan crud
+    Route::resource('jurusan', \App\Http\Controllers\Admin\JurusanController::class)->except('show');
+    Route::resource('program_study', \App\Http\Controllers\Admin\ProgramStudyController::class)->except('show');
+    Route::resource('mata_kuliah', \App\Http\Controllers\Admin\MataKuliahController::class)->except('show');
+    Route::resource('mahasiswa', \App\Http\Controllers\Admin\MahasiswaController::class);
+    Route::resource('tahun_akademik', \App\Http\Controllers\Admin\TahunAkademikController::class);
+    // krs
+    Route::get('krs/create/{nim}/{tahun_akademik}', [\App\Http\Controllers\Admin\KrsController::class, 'create'])->name('krs.create');
+    Route::get('krs', [\App\Http\Controllers\Admin\KrsController::class, 'index'])->name('krs.index');
+    Route::post('krs', [\App\Http\Controllers\Admin\KrsController::class, 'find'])->name('krs.find');
+    Route::post('krs/store', [\App\Http\Controllers\Admin\KrsController::class, 'store'])->name('krs.store');
+    Route::get('krs/{krs:id}/edit', [\App\Http\Controllers\Admin\KrsController::class, 'edit'])->name('krs.edit');
+    Route::put('krs/{krs:id}', [\App\Http\Controllers\Admin\KrsController::class, 'update'])->name('krs.update');
+    Route::delete('krs/{krs:id}', [\App\Http\Controllers\Admin\KrsController::class, 'destroy'])->name('krs.destroy');
+    // khs
+    Route::get('khs', [\App\Http\Controllers\Admin\KhsController::class, 'index'])->name('khs.index');
+    Route::post('khs', [\App\Http\Controllers\Admin\KhsController::class, 'find'])->name('khs.find');
+    // input nilai
+    Route::get('input_nilai',[\App\Http\Controllers\Admin\InputNilaiController::class, 'index'])->name('input_nilai.index');
+    Route::post('input_nilai',[\App\Http\Controllers\Admin\InputNilaiController::class, 'all'])->name('input_nilai.all');
+    Route::post('input_nilai/store',[\App\Http\Controllers\Admin\InputNilaiController::class, 'store'])->name('input_nilai.store');
+    // transkrip nilai
+    Route::get('transkrip_nilai', [\App\Http\Controllers\Admin\TranskripNilaiController::class, 'index'])->name("transkrip_nilai.index");
+    Route::post('transkrip_nilai', [\App\Http\Controllers\Admin\TranskripNilaiController::class, 'find'])->name("transkrip_nilai.find");
 
     Route::view('about', 'about')->name('about');
 
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
 
-    Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
+    Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+
+});
+
+Route::group(['middleware' => ['auth', 'mahasiswa']], function() {
+    Route::resource('mahasiswa', \App\Http\Controllers\mahasiswa\MahasiswaController::class);
+    Route::get('khs', [\App\Http\Controllers\mahasiswa\KhsController::class, 'index'])->name('khs.index');
+    Route::post('khs', [\App\Http\Controllers\mahasiswa\KhsController::class, 'find'])->name('khs.find');
 });
